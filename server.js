@@ -3,6 +3,12 @@ const db = require('./db');
 const { listenerCount } = require('./db/connection');
 require('console.table');
 
+// let choices;
+// db.viewAllDepartments().then(data =>{
+//     choices = data
+// })
+// console.log(choices)
+
 function mainMenu(){
     inquirer.prompt([
         {
@@ -12,8 +18,10 @@ function mainMenu(){
             choices: [
                 'View all departments',
                 'View all roles',
+                'View all employees',
                 'Add Department',
-                'Add Role'
+                'Add Role',
+                'Update Employee'
             ]
         }
     ]).then(res => {
@@ -22,10 +30,14 @@ function mainMenu(){
                 return viewAllDepartments();
             case 'View all roles' :
                 return viewAllRoles(); 
+            case 'View all employees' :
+                return viewAllEmployees();
             case 'Add Department':
                 return addDepartment(); 
             case 'Add Role':
                 return addRole();
+            case 'Update Employee Role':
+                return updateEmployee();
         }
     })
 };
@@ -35,6 +47,25 @@ async function viewAllDepartments(){
     console.log('\n')
     console.table(departments)
     mainMenu();
+
+    // let inquireArray = []
+
+    // name:'1.) Sales',
+    // message: '1.) Sales',
+    // value:1
+
+    // for(let i = 0; i < departments.length; i+=1)
+    // {
+    //     let newObject = {}
+    //     newObject["name"] = departments[i].name;
+    //     //newObject["message"] = departments[i].message;
+    //     newObject["value"] = i+1;
+    //     inquireArray.push(newObject)
+    // }
+    // console.log(inquireArray, "this is the inquire Array")
+    // console.log(departments)
+    // // return array of objects that is filtered from database
+    // return inquireArray;
 }
 
 async function viewAllRoles(){
@@ -61,6 +92,12 @@ async function addDepartment(){
 //Adds Role to Roles Table
 async function addRole(){
     let roleChoices = await db.viewAllDepartments()
+    let roles = roleChoices.map(({id, name})=>{
+        return {
+            name:name,
+            value:id
+        }
+    })
     const role = await inquirer.prompt([
         {
             type: 'input',
@@ -76,44 +113,55 @@ async function addRole(){
             type: 'list',
             name: 'department_id',
             message: 'Which department is this role in',
-            choices: [
-                { 
-                  name:'1.) Sales',
-                  message: '1.) Sales',
-                  value:1
-                },   
-                { 
-                  name:'2.) Marketing',
-                  message: '2.) Marketing',
-                  value:2
-                },   
-                { 
-                  name:'3.) Engineering',
-                  message: '3.) Engineering',
-                  value:3
-                },   
-                {
-                  name:'4.) Logisitcs',
-                  message: '4.) Logisitcs',
-                  value:4
-                }
-                
-                
-                
-            ]
+            choices: roles
             
         }
     ])
+    // remove value and replace it with department_id
+    console.log(role)
     await db.addRole(role)
+
     console.log("New Role Added")
     mainMenu();
 }
 
-// async function viewAllEmployees(){
-//     const roles = await db.viewAllEmployees()
+async function viewAllEmployees(){
+    const employees = await db.viewAllEmployees()
+    
+    console.log('\n')
+    
+    console.table(employees)
+    mainMenu();
 
-//     console.table(roles)
+}
 
-// }
+async function updateEmployee(){
+    const employees = await db.updateEmployee()
+    let viewEmployeeChoices = employees.map(({role_id, name})=>{
+        return {
+            name:name,
+            value:role_id
+        }
+    })
+
+    console.log('\n')
+    
+    console.table(employees)
+    const employeeSelect = await inquirer.prompt([
+        {
+            type: 'list',
+            name: 'role_id',
+            message: 'Which employee do you want to update?',
+            choices: viewEmployeeChoices
+        }
+    ]);
+    console.log(employeeSelect)
+    await db.addRole(employeeSelect)
+
+    console.log("Employee Updated")
+
+    mainMenu();
+
+}
 
 mainMenu();

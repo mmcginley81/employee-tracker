@@ -80,18 +80,18 @@ class DB{
         );
     }
     
-    // updateEmployee(titleId, characterId) {
-    //     return this.connection.query(
-    //         `
-    //     UPDATE 
-    //         characters
-    //     SET
-    //         title_id = ?
-    //     WHERE
-    //         id = ?
-    //     `, [titleId, characterId]
-    //     );
-    // }
+    updateEmployee(id, role_id) {
+        return this.connection.query(
+            `
+        UPDATE 
+            employees
+        SET
+            role_id = ?
+        WHERE
+            id = ?
+        `, [id, role_id]
+        );
+    }
 
 
 }
