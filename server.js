@@ -1,13 +1,8 @@
 const inquirer = require('inquirer');
 const db = require('./db');
-const { listenerCount } = require('./db/connection');
+const { listenerCount} = require('./db/connection');
 require('console.table');
 
-// let choices;
-// db.viewAllDepartments().then(data =>{
-//     choices = data
-// })
-// console.log(choices)
 
 function mainMenu(){
     inquirer.prompt([
@@ -19,7 +14,6 @@ function mainMenu(){
                 'View all departments',
                 'View all roles',
                 'View all employees',
-                'View all employees by department',
                 'Add Department',
                 'Add Role',
                 'Add Employee',
@@ -57,24 +51,6 @@ async function viewAllDepartments(){
     console.table(departments)
     mainMenu();
 
-    // let inquireArray = []
-
-    // name:'1.) Sales',
-    // message: '1.) Sales',
-    // value:1
-
-    // for(let i = 0; i < departments.length; i+=1)
-    // {
-    //     let newObject = {}
-    //     newObject["name"] = departments[i].name;
-    //     //newObject["message"] = departments[i].message;
-    //     newObject["value"] = i+1;
-    //     inquireArray.push(newObject)
-    // }
-    // console.log(inquireArray, "this is the inquire Array")
-    // console.log(departments)
-    // // return array of objects that is filtered from database
-    // return inquireArray;
 }
 
 async function viewAllRoles(){
@@ -299,7 +275,7 @@ async function updateEmployee(){
                 db.updateEmployee(response, res)
                 console.log(response, res)
                 console.log("Role Updated")
-                mainMenu();
+                mainMenu()
             })
     });
 
