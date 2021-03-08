@@ -40,6 +40,8 @@ VALUES
     ('Paul','Bruniges', 6, 4),
     ('Lauren','Cuevas', 7, NULL),
     ('Maria','Fontanez', 8, 7),
-    ('Michael','Fraga', 9, 7)
-    
+    ('Michael','Fraga', 9, 7),
+    ('Shelly','Garibay', 10, NULL),
+    ('Eleanor','Genina', 11, 10),
+    ('Darina','Gray', 12, 10)
 ;

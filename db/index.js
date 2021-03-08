@@ -79,12 +79,23 @@ class DB{
         `, role
         );
     }
+
+    addEmployee(employee) {
+        return this.connection.query(
+            `
+        INSERT INTO
+            employee
+        SET
+            ?
+        `, employee
+        );
+    }
     
-    updateEmployee(id, role_id) {
+    updateEmployee(role_id, id) {
         return this.connection.query(
             `
         UPDATE 
-            employees
+            employee
         SET
             role_id = ?
         WHERE
@@ -93,8 +104,51 @@ class DB{
         );
     }
 
+    deleteEmployee(employee) {
+        return this.connection.query(
+            `
+        DELETE 
+            employee
+        FROM
+            employee
+        WHERE
+            id = ?
+        `, employee
+        );
+    }
+
+    viewSalesDepartment(){
+        return this.connection.query(
+            `
+            SELECT 
+            employee.id,
+            employee.first_name,
+            employee.last_name,
+            role.title,
+            CONCAT(employee.first_name, ' ', employee.last_name) AS manager,
+            department.name AS department
+        FROM 
+            employee
+
+        LEFT JOIN
+            role ON employee.role_id = role.id
+        LEFT JOIN
+            department ON role.department_id = department.id    
+        LEFT JOIN
+            employee manager ON employee.manager_id = employee.id
+        WHERE 
+            department_id = 1
+        ORDER BY
+            employee.role_id
+            `
+        )
+    }
 
 }
+
+ 
+
+
 
 
 
