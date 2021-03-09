@@ -126,10 +126,10 @@ async function viewAllEmployees(){
 // ADD EMPLOYEE FUNCTION
 async function addEmployee(){
     const employee = await db.viewAllEmployees()
-    let managerChoice = employee.map(({id, manager})=>{
+    let managerChoice = employee.map(({id, first_name, last_name})=>{
         
         return {
-            name:manager,
+            name:first_name + " " + last_name,
             value:id
             
             }
@@ -168,7 +168,7 @@ async function addEmployee(){
             choices: managerChoice
         }
     ]);
-    // remove value and replace it with department_id
+    // take the choice value and the managerChoice value and send it to the db
     console.log(newEmployee)
     await db.addEmployee(newEmployee)
 
@@ -185,7 +185,7 @@ async function deleteEmployee(){
             value:id
             
             }
-    })
+    });
     //ask which employee to remove
     const removeEmployee = await inquirer.prompt([
         {
@@ -194,12 +194,14 @@ async function deleteEmployee(){
             message: 'Which employee would you like to remove?',
             choices: employeeChoice
         }
-    ]).then(db.deleteEmployee(removeEmployee));
+    ])
+    await db.deleteEmployee(removeEmployee);
+
     console.log(removeEmployee)
-    console.log(employeeChoice)
+    //console.log(employeeChoice)
     console.log("Employee Removed ")
     // Have to end to see employees deleted.
-    end();
+    mainMenu();
 }
 
 // View all employees by Department
@@ -280,5 +282,6 @@ async function updateEmployee(){
     });
 
 }
+
 
 mainMenu();
