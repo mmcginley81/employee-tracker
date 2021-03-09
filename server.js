@@ -1,6 +1,6 @@
 const inquirer = require('inquirer');
 const db = require('./db');
-const { listenerCount} = require('./db/connection');
+const { listenerCount } = require('./db/connection');
 require('console.table');
 
 
