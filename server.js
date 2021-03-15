@@ -1,4 +1,5 @@
 const inquirer = require('inquirer');
+const { connection } = require('./db');
 const db = require('./db');
 const { listenerCount } = require('./db/connection');
 require('console.table');
@@ -18,7 +19,8 @@ function mainMenu(){
                 'Add Role',
                 'Add Employee',
                 'Update Employee',
-                'Delete Employee'
+                'Delete Employee',
+                'Quit'
             ]
         }
     ]).then(res => {
@@ -41,6 +43,8 @@ function mainMenu(){
                 return updateEmployee();
             case 'Delete Employee':
                 return deleteEmployee();
+            case 'Quit':
+                return quit();
         }
     })
 };
@@ -135,7 +139,7 @@ async function addEmployee(){
             }
         
     })
-    console.log(managerChoice)
+    //console.log(managerChoice)
     let roleChoices = await db.viewAllRoles()
     let roles = roleChoices.map(({id, title})=>{
         return {
@@ -283,5 +287,13 @@ async function updateEmployee(){
 
 }
 
+async function quit(){
+    //const quit = db.end()
+    console.log('\n')
+    console.log("Goodbye")
+    console.table(quit)
+    
+    connection.end();
+}
 
 mainMenu();
