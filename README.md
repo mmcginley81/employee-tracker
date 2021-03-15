@@ -4,6 +4,8 @@ In this project I am learning MySQL to manipulate database tables by asking ques
 
 The project is organizing a business owner's employee data including employee roles, titles, managers and much more.
 
+<img width="947" alt="Employee Tracker" src="https://user-images.githubusercontent.com/75404915/111231370-5f9b2300-85a6-11eb-87d8-05bd4cca80e5.PNG">
+
 # Project Video
 Link to project - https://youtu.be/Dtju78f5KDg
 
